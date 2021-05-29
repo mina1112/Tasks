@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.activity_today_task.*
 
 class EditTask : AppCompatActivity() {
 
-    val realm: Realm = Realm.getDefaultInstance()
+    var realm: Realm = Realm.getDefaultInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,22 +20,24 @@ class EditTask : AppCompatActivity() {
         val task: Task? = read()
 
 //        データベースから取得したTaskをEditTextのテキストに表示する処理
-        if (task != null) {
+         if (task != null) {
             nameEditText.setText(task.name)
             timeEditText.setText(task.time)
         }
 
 //        保存ボタンを押したときnameEditTextとtimeEditTextに入力されたテキストを取得save()メソッドに渡す
         saveButton.setOnClickListener {
+
             val name:String = nameEditText.text.toString()
             val time: String = timeEditText.text.toString()
             save(name, time)
 
-
             val toTodayTaskIntent = Intent(this, TodayTask::class.java)
             startActivity(toTodayTaskIntent)
-        }
-    }
+                }
+            }
+
+
 
     override fun onDestroy() {
         super.onDestroy()
