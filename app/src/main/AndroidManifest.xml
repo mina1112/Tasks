@@ -3,15 +3,21 @@
     package="app.kato.nim.tasks">
 
     <application
-        android:name=".RealmTaskApplication"
+        android:name=".MySchedulerApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Tasks">
-        <activity android:name=".TodayTask"></activity>
-        <activity android:name=".EditTask" />
+        <activity
+            android:name=".MainActivity3"
+            android:label="@string/title_activity_main3"></activity>
+        <activity android:name=".ScheduleEditActivity" />
+        <activity
+            android:name=".MainActivity2"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/Theme.Tasks.NoActionBar" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

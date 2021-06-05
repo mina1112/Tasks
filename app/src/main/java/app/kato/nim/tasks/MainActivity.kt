@@ -1,9 +1,8 @@
 package app.kato.nim.tasks
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import kotlinx.android.synthetic.main.activity_edit_task.*
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -13,9 +12,12 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        intentButton.setOnClickListener {
-            val toTodayTaskIntent = Intent(this, TodayTask::class.java)
+        day1Content.setOnClickListener {
+            val toTodayTaskIntent = Intent(this, MainActivity2::class.java)
             startActivity(toTodayTaskIntent)
         }
+
+        //受け取った変数を入れる
+        val str = intent.getStringExtra("EXTRA_MESSAGE")
     }
 }
