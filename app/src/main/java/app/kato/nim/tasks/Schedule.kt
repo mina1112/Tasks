@@ -9,4 +9,6 @@ open class Schedule : RealmObject() {
     var time: String = ""
     var title: String = ""
     var detail: String = ""
+//    task追加
+//    var task: String = ""
 }

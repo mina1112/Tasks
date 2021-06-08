@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import io.realm.Realm
+import io.realm.RealmConfiguration
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_main2.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -25,6 +26,16 @@ class MainActivity2 : AppCompatActivity() {
         val schedules = realm.where<Schedule>().findAll()
         val adapter = ScheduleAdapter(schedules)
         list.adapter = adapter
+
+
+        Realm.init(this)
+        val realmConfig = RealmConfiguration.Builder() // Realmの設定を定義
+                .schemaVersion(1L) // 新しいスキーマのバージョンを設定
+                .migration(MyMigration()) // マイグレーション用のコードを設定
+                .build()
+        Realm.setDefaultConfiguration(realmConfig) // 上記の設定をRealmにセット
+
+        val memo: Memo? = read()
 
         adapter.setOnItemClickListener { id ->
             val intent = Intent(this, ScheduleEditActivity::class.java)
@@ -49,6 +60,14 @@ class MainActivity2 : AppCompatActivity() {
             intent.putExtra(EXTRA_MESSAGE, str)
         }
 
+        if (memo !=null) {
+            editText.setText(memo.task)
+        }
+
+        topButton.setOnClickListener {
+            val task: String = editText.text.toString()
+            save(task)
+        }
 
         }
 
@@ -56,5 +75,21 @@ class MainActivity2 : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         realm.close()
+    }
+
+    fun read(): Memo? {
+        return realm.where(Memo::class.java).findFirst()
+    }
+
+    fun save(task: String) {
+        val memo: Memo? = read()
+        realm.executeTransaction {
+            if (memo != null) {
+                memo.task = task
+            } else {
+                val newMemo: Memo = it.createObject(Memo::class.java)
+                newMemo.task = task
+            }
+        }
     }
 }
